@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scoreboard - Dart Game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(45deg, #4a148c, #d500f9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .scoreboard {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            width: 400px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            color: #ffeb3b;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .player-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .player-name input {
+            background-color: #333;
+            color: white;
+            font-size: 1.1rem;
+            width: 120px;
+            padding: 10px;
+            text-align: center;
+            border: 2px solid #ffeb3b;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .player-name input:focus {
+            border-color: #d500f9;
+            outline: none;
+        }
+
+        .score {
+            font-size: 3rem;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .score div {
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .score-buttons {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .score-buttons button {
+            background-color: #ff3b30;
+            padding: 15px;
+            font-size: 1.2rem;
+            color: white;
+            width: 48%;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .score-buttons button:hover {
+            background-color: #d500f9;
+        }
+
+        .score-input {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .score-input input {
+            padding: 10px;
+            font-size: 1.2rem;
+            width: 150px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 2px solid #ffeb3b;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .score-input input:focus {
+            border-color: #d500f9;
+            outline: none;
+        }
+
+        .reset-btn {
+            background-color: #4caf50;
+            padding: 15px;
+            font-size: 1.2rem;
+            color: white;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .reset-btn:hover {
+            background-color: #81c784;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="scoreboard">
+        <h2>Dart Game Scoreboard</h2>
+
+        <!-- Display Player Names and Edit Inputs -->
+        <div class="player-name">
+            <input type="text" id="player1-name" value="Player 1" placeholder="Player 1" />
+            <input type="text" id="player2-name" value="Player 2" placeholder="Player 2" />
+            <button class="button" onclick="updatePlayerNames()">Update Names</button>
+        </div>
+
+        <!-- Display Player Scores Side by Side -->
+        <div class="score">
+            <div>
+                <span id="player1-name-display">Player 1</span>: <span id="score-player1">501</span>
+            </div>
+            <div>
+                <span id="player2-name-display">Player 2</span>: <span id="score-player2">501</span>
+            </div>
+        </div>
+
+        <!-- Input to add score for players -->
+        <div class="score-input">
+            <input type="number" id="score-to-add" placeholder="Enter score" />
+            <div class="score-buttons">
+                <button onclick="addScore(1)">Add to Player 1</button>
+                <button onclick="addScore(2)">Add to Player 2</button>
+            </div>
+        </div>
+
+        <div>
+            <button class="reset-btn" onclick="resetScores()">Reset Scores</button>
+        </div>
+    </div>
+
+    <script>
+        // Initialize scores
+        let player1Score = 501;
+        let player2Score = 501;
+        let player1Name = "Player 1";
+        let player2Name = "Player 2";
+
+        // Update the score display
+        function updateScoreDisplay() {
+            document.getElementById('score-player1').textContent = player1Score;
+            document.getElementById('score-player2').textContent = player2Score;
+            document.getElementById('player1-name-display').textContent = player1Name;
+            document.getElementById('player2-name-display').textContent = player2Name;
+        }
+
+        // Reset the scores to 501
+        function resetScores() {
+            player1Score = 501;
+            player2Score = 501;
+            updateScoreDisplay();
+        }
+
+        // Function to add score to a player
+        function addScore(player) {
+            const scoreToAdd = parseInt(document.getElementById('score-to-add').value);
+
+            if (isNaN(scoreToAdd) || scoreToAdd <= 0) {
+                alert("Please enter a valid positive score.");
+                return;
+            }
+
+            if (player === 1) {
+                player1Score -= scoreToAdd;
+            } else if (player === 2) {
+                player2Score -= scoreToAdd;
+            }
+
+            updateScoreDisplay();
+        }
+
+        // Function to update player names
+        function updatePlayerNames() {
+            const newPlayer1Name = document.getElementById('player1-name').value;
+            const newPlayer2Name = document.getElementById('player2-name').value;
+            player1Name = newPlayer1Name || "Player 1";
+            player2Name = newPlayer2Name || "Player 2";
+            updateScoreDisplay();
+        }
+
+        // Initialize score display on page load
+        updateScoreDisplay();
+    </script>
+</body>
+</html>
